@@ -21,7 +21,7 @@ def send_message_to_user(user_name, message):
 def group_info_click(group_name):
     driver.find_element_by_xpath('//span[@title = "{}"]'.format(group_name)).click()  # Open $group_name message thread
     driver.find_element_by_class_name("_3AwwN").click()                               # Open group info
-    time.sleep(0.5)                                                                   #
+    time.sleep(0.5)                                                                   
 
 
 def group_members(group_name):
@@ -47,11 +47,17 @@ def pm_group_message(group_name, message):
     print('Clicking Member ', 0)
     members[0].click()
     send_message(message)
-    for memberAt in range(1, members_count - 1):
-        members = group_members(groupName)
-        print('Clicking Member ', memberAt)
-        members[memberAt].click()
-        send_message(message)
+    memberAt = 1
+    # for memberAt in range(1, members_count - 1):
+    while memberAt < members_count - 1:
+        try:
+            members = group_members(groupName)
+            print('Clicking Member ', memberAt)
+            members[memberAt].click()
+            send_message(message)
+            memberAt = memberAt + 1
+        except Exception:
+            print("Error occured")
 
 
 def find_currently_selected_group_name():
@@ -59,6 +65,8 @@ def find_currently_selected_group_name():
     print("Title is:",  title)
     return title
 
+newline = '                                                                                                                                                         '
+blankline = '*'
 
 while True:
     whatToDo = input('Choose 1 or 2 or 3 or q, then Enter\n'
@@ -75,7 +83,24 @@ while True:
         msg = input('Message: ')
         pm_group_message(groupName, msg)
     elif whatToDo == '3':
-        msg = input('Message: ')
+        # msg = input('Message: ')
+        # f = open('message.txt','r')
+        # msg = f.read()
+        # print(msg)
+        # f.close()
+        msg = "Osho Naman" + newline\
+         + blankline + newline\
+         + "Let's listen to Osho's timeless wisdom!" + newline\
+         + "Get the FREE Osho Meditation app: Bliss and also forward and Share the blessing of Osho with all!" + newline\
+         + blankline + newline\
+         + "Enjoy lots of meditation tracks and Osho's talk in this beautiful app." + newline\
+         + blankline + newline\
+         + "सुने ओशो का अध्भुत ज्ञान सिर्फ Bliss App पर।" + newline\
+         + "अभी पाएं Bliss App और आनंद लें ओशो के परम ज्ञान का।" + newline\
+         + blankline + newline\
+         + "=> Link :  bit.ly/OshoBliss <="
+
+
         while True:
             nowWhat = input("Press Enter after selecting group to continue or q to quite:")
             if nowWhat == '':
