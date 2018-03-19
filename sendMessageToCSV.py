@@ -51,6 +51,7 @@ def read_csv(csv_to_open):
     for number in numbers:
         print(count, " out of ", len(numbers), "\n")
         send_message_to_number(number)
+	count = count + 1;
 
 
 def read_members_from_group():
