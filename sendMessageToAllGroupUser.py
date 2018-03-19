@@ -1,16 +1,23 @@
 from selenium import webdriver
+from selenium.webdriver.common.keys import Keys
 import time
 
 
-driver = webdriver.Chrome()
+driver = webdriver.Firefox()
 driver.get('https://web.whatsapp.com/')
 
 input('Press enter after scanning the QR code')
 
 
 def send_message(message):
-    driver.find_element_by_class_name('_2bXVy').send_keys(message)                    # Type message
-    driver.find_element_by_class_name('_2lkdt').click()                               # Click on send button
+    if message == "":
+        # driver.find_element_by_class_name('_2bXVy').click()
+        driver.find_element_by_class_name('_2bXVy').send_keys(Keys.COMMAND, 'v')          # Paste from clipboard
+        # driver.find_element_by_class_name('_2lkdt').click()                               # Click on send button
+    else:
+        driver.find_element_by_class_name('_2bXVy').send_keys(message)                    # Type message
+        driver.find_element_by_class_name('_2lkdt').click()                               # Click on send button
+
 
 
 def send_message_to_user(user_name, message):
@@ -21,7 +28,7 @@ def send_message_to_user(user_name, message):
 def group_info_click(group_name):
     driver.find_element_by_xpath('//span[@title = "{}"]'.format(group_name)).click()  # Open $group_name message thread
     driver.find_element_by_class_name("_3AwwN").click()                               # Open group info
-    time.sleep(0.5)                                                                   
+    time.sleep(2)
 
 
 def group_members(group_name):
@@ -62,10 +69,15 @@ def pm_group_message(group_name, message):
 
 def find_currently_selected_group_name():
     title = driver.find_element_by_class_name("_1GX8_").find_element_by_class_name("_1wjpf").get_attribute("title")
-    print("Title is:",  title)
+    try :
+        print("Title is:",  title)
+    except Exception:
+        print("Title has non ascii characters")
     return title
 
-newline = '                                                                                                                                                         '
+
+newline = '                                                                         ' \
+          '                                                                                '
 blankline = '*'
 
 while True:
@@ -83,23 +95,19 @@ while True:
         msg = input('Message: ')
         pm_group_message(groupName, msg)
     elif whatToDo == '3':
-        # msg = input('Message: ')
-        # f = open('message.txt','r')
-        # msg = f.read()
-        # print(msg)
-        # f.close()
-        msg = "Osho Naman" + newline\
-         + blankline + newline\
-         + "Let's listen to Osho's timeless wisdom!" + newline\
-         + "Get the FREE Osho Meditation app: Bliss and also forward and Share the blessing of Osho with all!" + newline\
-         + blankline + newline\
-         + "Enjoy lots of meditation tracks and Osho's talk in this beautiful app." + newline\
-         + blankline + newline\
-         + "सुने ओशो का अध्भुत ज्ञान सिर्फ Bliss App पर।" + newline\
-         + "अभी पाएं Bliss App और आनंद लें ओशो के परम ज्ञान का।" + newline\
-         + blankline + newline\
-         + "=> Link :  bit.ly/OshoBliss <="
-
+        msg = ''
+        # msg = "Osho Naman" + newline\
+        #  + blankline + newline\
+        #  + "Let's listen to Osho's timeless wisdom!" + newline\
+        #  + "Get the FREE Osho Meditation app: Bliss and also forward and Share the blessing of Osho with all!" + newline\
+        #  + blankline + newline\
+        #  + "Enjoy lots of meditation tracks and Osho's talk in this beautiful app." + newline\
+        #  + blankline + newline\
+        #  + "सुने ओशो का अध्भुत ज्ञान सिर्फ Bliss App पर।" + newline\
+        #  + "अभी पाएं Bliss App और आनंद लें ओशो के परम ज्ञान का।" + newline\
+        #  + blankline + newline\
+        #  + "=> Link :  bit.ly/OshoBliss <="
+        # msg = input("Type message or leave blank to paste from clipboard: ")
 
         while True:
             nowWhat = input("Press Enter after selecting group to continue or q to quite:")
